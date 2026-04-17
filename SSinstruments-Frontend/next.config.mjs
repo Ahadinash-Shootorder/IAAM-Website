@@ -5,7 +5,7 @@ const nextConfig = {
 
   // 👇 YE IMPORTANT HAI
   basePath: "/ss",
-  assetPrefix: "/ss",
+  // assetPrefix: "/ss",
 };
 
 export default nextConfig;
