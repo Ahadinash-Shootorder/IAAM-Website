@@ -1,4 +1,4 @@
-FROM node:20-alpine AS build
+FROM node:20.11-alpine AS build
 # Installing libvips-dev for sharp Compatibility
 RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev vips-dev > /dev/null 2>&1
 ENV NODE_ENV=production
