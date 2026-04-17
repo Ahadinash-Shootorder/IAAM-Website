@@ -30,28 +30,27 @@ services:
     restart: unless-stopped
 
     environment: # Server
-
-    HOST: 0.0.0.0
-    PORT: 1337
+      HOST: 0.0.0.0
+      PORT: 1337
 
     # Secrets
-    APP_KEYS: risAZoWxzRJ1htJBMaujMw==,jGiLmhDNPzIFTdIRVQDBvg==,ytO9wTUjq8Qrr41kUFRSYg==,0FQeYxc/ulioidBiLuN+xA==
-    API_TOKEN_SALT: 6iokfrw7YfUydTl0YLzQWg==
-    ADMIN_JWT_SECRET: We4s9pco9gheLtzrpy/HFw==
-    TRANSFER_TOKEN_SALT: 677NsWS8SfWZMQ9fmxbLRg==
-    ENCRYPTION_KEY: guRrRNGaIs/wDJ54/MiPsQ==
-    JWT_SECRET: 86kneR/GzOMGwScMwQI6KA==
+      APP_KEYS: risAZoWxzRJ1htJBMaujMw==,jGiLmhDNPzIFTdIRVQDBvg==,ytO9wTUjq8Qrr41kUFRSYg==,0FQeYxc/ulioidBiLuN+xA==
+      API_TOKEN_SALT: 6iokfrw7YfUydTl0YLzQWg==
+      ADMIN_JWT_SECRET: We4s9pco9gheLtzrpy/HFw==
+      TRANSFER_TOKEN_SALT: 677NsWS8SfWZMQ9fmxbLRg==
+      ENCRYPTION_KEY: guRrRNGaIs/wDJ54/MiPsQ==
+      JWT_SECRET: 86kneR/GzOMGwScMwQI6KA==
 
     # Database
-    DATABASE_CLIENT: postgres
-    DATABASE_HOST: database-1.c5i4uiaecb64.eu-north-1.rds.amazonaws.com
-    DATABASE_PORT: 5432
-    DATABASE_NAME: postgres
-    DATABASE_USERNAME: postgresStrpi
-    DATABASE_PASSWORD: vw1ELRLLOVEO3C5ggf4H
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: database-1.c5i4uiaecb64.eu-north-1.rds.amazonaws.com
+      DATABASE_PORT: 5432
+      DATABASE_NAME: postgres
+      DATABASE_USERNAME: postgresStrpi
+      DATABASE_PASSWORD: vw1ELRLLOVEO3C5ggf4H
 
     # ⚠️ IMPORTANT FIX (SSL ISSUE REMOVE)
-    DATABASE_SSL: "false"
+      DATABASE_SSL: "false"
 
     expose:
       - "1337"
