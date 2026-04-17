@@ -16,7 +16,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-north-1
+          aws-region: ap-south-1
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -52,7 +52,7 @@ jobs:
           script: |
             # Pull latest images and restart containers
             cd /opt/myapp
-            aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_REGISTRY }}
+            aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_REGISTRY }}
             docker-compose pull
             docker-compose up -d --no-deps iaam-nextjs ssinstrument-nextjs strapi
             docker system prune -f
