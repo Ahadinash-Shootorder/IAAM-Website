@@ -24,13 +24,13 @@ services:
   #   expose:
   #     - "1337"
 
-strapi:
-  image: ${ECR_REGISTRY:-localhost}/strapi:latest
-  container_name: strapi-backend
-  restart: unless-stopped
+  strapi:
+    image: ${ECR_REGISTRY:-localhost}/strapi:latest
+    container_name: strapi-backend
+    restart: unless-stopped
 
-  environment:
-    # Server
+    environment: # Server
+
     HOST: 0.0.0.0
     PORT: 1337
 
@@ -53,8 +53,8 @@ strapi:
     # ⚠️ IMPORTANT FIX (SSL ISSUE REMOVE)
     DATABASE_SSL: "false"
 
-  expose:
-    - "1337"
+    expose:
+      - "1337"
 
   nginx:
     image: nginx:alpine
