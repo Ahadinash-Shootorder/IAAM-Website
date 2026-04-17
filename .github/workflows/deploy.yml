@@ -18,95 +18,73 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-south-1
+          aws-region: ap-south-1   # ✅ FIXED
 
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      # 🔥 CREATE ECR REPOSITORIES (AUTO FIX)
-      - name: Create ECR Repositories if not exist
-        run: |
-          aws ecr describe-repositories --repository-names iaam-nextjs || aws ecr create-repository --repository-name iaam-nextjs
-          aws ecr describe-repositories --repository-names ssinstrument-nextjs || aws ecr create-repository --repository-name ssinstrument-nextjs
-          aws ecr describe-repositories --repository-names strapi || aws ecr create-repository --repository-name strapi
-
-      # 🚀 BUILD & PUSH IAAM
-      - name: Build & Push IAAM Next.js
+      # ✅ BUILD & PUSH IAAM
+      - name: Build & Push IAAM
         run: |
           docker build -t ${{ steps.login-ecr.outputs.registry }}/iaam-nextjs:latest ./IAAM--Frontend-Devlopement
           docker push ${{ steps.login-ecr.outputs.registry }}/iaam-nextjs:latest
 
-      # 🚀 BUILD & PUSH SSinstrument
-      - name: Build & Push SSinstrument Next.js
+      # ✅ BUILD & PUSH SSinstrument
+      - name: Build & Push SSinstrument
         run: |
           docker build -t ${{ steps.login-ecr.outputs.registry }}/ssinstrument-nextjs:latest ./SSinstruments-Frontend
           docker push ${{ steps.login-ecr.outputs.registry }}/ssinstrument-nextjs:latest
 
-      # 🚀 BUILD & PUSH STRAPI
+      # ✅ BUILD & PUSH STRAPI
       - name: Build & Push Strapi
         run: |
           docker build -t ${{ steps.login-ecr.outputs.registry }}/strapi:latest ./iaamonline_STRAPI_HeadlessCMS
           docker push ${{ steps.login-ecr.outputs.registry }}/strapi:latest
+
 
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to EC2 via SSH
+      - name: Deploy to EC2
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            echo "🚀 Deploy started"
 
-            # Ensure folder exists
+            echo "🚀 Deploy Start"
+
+            # Go to app directory
             mkdir -p /opt/myapp
             cd /opt/myapp
 
-            # Install docker if not exists
-            if ! command -v docker &> /dev/null
-            then
-              sudo apt update
-              sudo apt install docker.io -y
-              sudo systemctl start docker
-            fi
-
-            # Install docker-compose if not exists
-            if ! command -v docker-compose &> /dev/null
-            then
-              sudo apt install docker-compose -y
+            # Clone repo if not exists
+            if [ ! -d ".git" ]; then
+              git clone https://github.com/Ahadinash-Shootorder/IAAM-Website.git .
+            else
+              git pull origin main
             fi
 
             # Login to ECR
             aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_REGISTRY }}
 
+            # Export registry for docker-compose
+            export ECR_REGISTRY=${{ secrets.AWS_REGISTRY }}
+
             # Pull latest images
-            docker pull ${{ secrets.AWS_REGISTRY }}/iaam-nextjs:latest
-            docker pull ${{ secrets.AWS_REGISTRY }}/ssinstrument-nextjs:latest
-            docker pull ${{ secrets.AWS_REGISTRY }}/strapi:latest
+            docker-compose pull
 
-            # Stop old containers
-            docker stop iaam-nextjs || true
-            docker stop ssinstrument-nextjs || true
-            docker stop strapi || true
-
-            docker rm iaam-nextjs || true
-            docker rm ssinstrument-nextjs || true
-            docker rm strapi || true
-
-            # Run new containers
-            docker run -d -p 3000:3000 --name iaam-nextjs ${{ secrets.AWS_REGISTRY }}/iaam-nextjs:latest
-            docker run -d -p 3001:3000 --name ssinstrument-nextjs ${{ secrets.AWS_REGISTRY }}/ssinstrument-nextjs:latest
-            docker run -d -p 1337:1337 --name strapi ${{ secrets.AWS_REGISTRY }}/strapi:latest
+            # Restart services
+            docker-compose up -d --remove-orphans
 
             # Cleanup
             docker system prune -f
 
-            echo "✅ Deploy complete"
+            echo "✅ Deploy Done"
 
 
 
