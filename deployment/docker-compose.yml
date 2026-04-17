@@ -17,11 +17,39 @@ services:
     expose:
       - "3000"
 
+  # strapi:
+  #   image: ${ECR_REGISTRY:-localhost}/strapi:latest
+  #   container_name: strapi-backend
+  #   restart: unless-stopped
+  #   env_file: .env
+  #   expose:
+  #     - "1337"
+
   strapi:
     image: ${ECR_REGISTRY:-localhost}/strapi:latest
     container_name: strapi-backend
     restart: unless-stopped
     env_file: .env
+    environment:
+      HOST: 0.0.0.0
+      PORT: 1337
+
+      APP_KEYS: ${APP_KEYS}
+      API_TOKEN_SALT: ${API_TOKEN_SALT}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+      JWT_SECRET: ${JWT_SECRET}
+
+      DATABASE_CLIENT: ${DATABASE_CLIENT}
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_SSL: ${DATABASE_SSL}
+      DATABASE_SSL_REJECT_UNAUTHORIZED: ${DATABASE_SSL_REJECT_UNAUTHORIZED}
+
     expose:
       - "1337"
 
@@ -35,7 +63,7 @@ services:
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - /etc/letsencrypt:/etc/letsencrypt:ro # Mount Certbot certificates
-      - /var/www/certbot:/var/www/certbot    # Webroot for certbot renewals
+      - /var/www/certbot:/var/www/certbot # Webroot for certbot renewals
     depends_on:
       - iaam-nextjs
       - ssinstrument-nextjs
