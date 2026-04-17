@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-instrument-sans), sans-serif;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.2s ease-out;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeUp {
+  opacity: 0;
+  animation: fadeUp 0.6s ease-out forwards;
+  animation-delay: var(--animation-delay, 0s);
+  will-change: opacity, transform;
+}
+
+@keyframes slideArrowRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(4px);
+  }
+}
+
+.arrow-animate {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+button:hover .arrow-animate {
+  animation: slideArrowRight 0.3s ease forwards;
+}
+
+/* Swiper Hero Section Fixes */
+.swiper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.swiper-wrapper {
+  height: 100%;
+}
+
+.swiper-slide {
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+}
+
+/* Swiper Pagination Lines */
+.swiper-pagination {
+  bottom: 30px !important;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.swiper-pagination-bullet {
+  width: 30px !important;
+  height: 3px !important;
+  border-radius: 2px !important;
+  background-color: rgba(255, 255, 255, 0.5) !important;
+  opacity: 1 !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: white !important;
+  width: 50px !important;
+}
+
+/* Card Hover Effects */
+.card-hover {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 25px 50px rgba(11, 42, 111, 0.25);
+}
+
+.card-hover:hover .card-image {
+  transform: scale(1.08);
+}
+
+.card-image {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Card in view animation */
+.card-in-view {
+  animation: revealUp 0.6s ease-out forwards !important;
+}
+
+/* Enhanced card glow on scroll */
+@keyframes cardGlow {
+  from {
+    box-shadow: 0 10px 30px rgba(11, 42, 111, 0.1);
+  }
+  to {
+    box-shadow: 0 20px 50px rgba(11, 42, 111, 0.2);
+  }
+}
+
+.card-hover.card-in-view {
+  animation: cardGlow 0.6s ease-out forwards;
+}
+
+/* Scroll reveal animation */
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal-on-scroll {
+  opacity: 0;
+  animation: revealUp 0.8s ease-out forwards;
+}
+
+/* Word-by-word reveal animation */
+@keyframes wordReveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.word-span {
+  display: inline-block;
+  opacity: 0;
+  margin-right: 0.25em;
+}
+
+.word-span.revealed {
+  animation: wordReveal 0.25s ease-out forwards;
+}

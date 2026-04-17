@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_event_section_upcoming_events",
+  "info": {
+    "displayName": "UpcomingEvents"
+  },
+  "options": {},
+  "attributes": {
+    "Date": {
+      "type": "integer"
+    },
+    "Month": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "blocks"
+    }
+  },
+  "config": {}
+}

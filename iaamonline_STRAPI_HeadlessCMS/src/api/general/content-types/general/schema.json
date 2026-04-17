@@ -1,0 +1,67 @@
+{
+  "kind": "collectionType",
+  "collectionName": "generals",
+  "info": {
+    "singularName": "general",
+    "pluralName": "generals",
+    "displayName": "General"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "SiteTitle": {
+      "type": "string"
+    },
+    "Tagline": {
+      "type": "string"
+    },
+    "Favoicon": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "Logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "CommunicationTitle": {
+      "type": "string"
+    },
+    "Communication": {
+      "type": "component",
+      "component": "menus.communication",
+      "repeatable": true
+    },
+    "SocialMediaTitle": {
+      "type": "string"
+    },
+    "SocialMedia": {
+      "type": "component",
+      "component": "social-media.social-media",
+      "repeatable": true
+    },
+    "WeChat": {
+      "type": "component",
+      "component": "menus.we-chat",
+      "repeatable": false
+    },
+    "Legal": {
+      "type": "component",
+      "component": "menus.legal-info",
+      "repeatable": true
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_secondfold_third_folds",
+  "info": {
+    "displayName": "ThirdFold"
+  },
+  "options": {},
+  "attributes": {
+    "Heading": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "blocks"
+    },
+    "Image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "Cards": {
+      "type": "component",
+      "component": "cardwithlink.cardwithlink",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

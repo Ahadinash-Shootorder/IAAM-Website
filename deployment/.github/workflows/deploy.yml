@@ -1,0 +1,58 @@
+name: Deploy Production
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-north-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build & Push IAAM-nextjs
+        run: |
+          # Make sure to run this workflow from the correct repository context
+          # If your repos are separate, break this deploy.yml into multiple files directly into the respective repo
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/iaam-nextjs:latest ./IAAM--Frontend-Devlopement
+          docker push ${{ steps.login-ecr.outputs.registry }}/iaam-nextjs:latest
+          
+      - name: Build & Push SSinstrument-nextjs
+        run: |
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/ssinstrument-nextjs:latest ./SSinstruments-Frontend
+          docker push ${{ steps.login-ecr.outputs.registry }}/ssinstrument-nextjs:latest
+
+      - name: Build & Push Strapi
+        run: |
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/strapi:latest ./iaamonline_STRAPI_HeadlessCMS
+          docker push ${{ steps.login-ecr.outputs.registry }}/strapi:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH into EC2 and Deploy
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Pull latest images and restart containers
+            cd /opt/myapp
+            aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_REGISTRY }}
+            docker-compose pull
+            docker-compose up -d --no-deps iaam-nextjs ssinstrument-nextjs strapi
+            docker system prune -f

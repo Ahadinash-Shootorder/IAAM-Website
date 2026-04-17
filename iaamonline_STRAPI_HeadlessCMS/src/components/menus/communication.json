@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_menus_communications",
+  "info": {
+    "displayName": "Communication"
+  },
+  "options": {},
+  "attributes": {
+    "Label": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "text"
+    },
+    "IconImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  },
+  "config": {}
+}

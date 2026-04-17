@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_menus_sublinks",
+  "info": {
+    "displayName": "Sublinks"
+  },
+  "options": {},
+  "attributes": {
+    "LinkTitle": {
+      "type": "string"
+    },
+    "LinkURL": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

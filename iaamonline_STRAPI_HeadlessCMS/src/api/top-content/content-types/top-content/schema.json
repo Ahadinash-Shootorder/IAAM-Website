@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "top_contents",
+  "info": {
+    "singularName": "top-content",
+    "pluralName": "top-contents",
+    "displayName": "Pages"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "PageTitle": {
+      "type": "string"
+    },
+    "ParentPage": {
+      "type": "enumeration",
+      "enum": [
+        "Individual Page",
+        "Membership",
+        "Meetings & Events",
+        "Innovation & Sustainability",
+        "Journals & Proceedings",
+        "Awards & Recognition",
+        "Discover IAAM"
+      ]
+    },
+    "Description": {
+      "type": "blocks"
+    },
+    "HeroBanner": {
+      "type": "component",
+      "component": "banner.hero-banner",
+      "repeatable": false
+    },
+    "Section": {
+      "type": "component",
+      "component": "sections.section-one",
+      "repeatable": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "PageTitle"
+    },
+    "SEO": {
+      "type": "component",
+      "component": "seo.seo",
+      "repeatable": false
+    }
+  }
+}

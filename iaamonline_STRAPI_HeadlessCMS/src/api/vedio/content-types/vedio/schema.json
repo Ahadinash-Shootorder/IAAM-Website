@@ -1,0 +1,69 @@
+{
+  "kind": "collectionType",
+  "collectionName": "vedios",
+  "info": {
+    "singularName": "vedio",
+    "pluralName": "vedios",
+    "displayName": "Video"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "VideoID": {
+      "type": "string"
+    },
+    "Name": {
+      "type": "string"
+    },
+    "HostName": {
+      "type": "string"
+    },
+    "Views": {
+      "type": "integer",
+      "default": 0
+    },
+    "DisplayRole": {
+      "type": "enumeration",
+      "enum": [
+        "Admin",
+        "Public",
+        "Private"
+      ]
+    },
+    "VideoCategory": {
+      "type": "enumeration",
+      "enum": [
+        "Research Highlights",
+        "Keynote Lectures",
+        "Panel Discussions",
+        "Workshops",
+        "Member Spotlights",
+        "Conferences"
+      ]
+    },
+    "Description": {
+      "type": "blocks"
+    },
+    "CTAButton": {
+      "type": "string"
+    },
+    "FeaturedVideo": {
+      "type": "boolean"
+    },
+    "CTAButtonLink": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  }
+}

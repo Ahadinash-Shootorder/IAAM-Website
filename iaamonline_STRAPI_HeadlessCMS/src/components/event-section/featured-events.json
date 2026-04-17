@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_event_section_featured_events_s",
+  "info": {
+    "displayName": "FeaturedEvents "
+  },
+  "options": {},
+  "attributes": {
+    "EventHeading": {
+      "type": "string"
+    },
+    "UpcomingFeaturedEvents": {
+      "type": "component",
+      "component": "event-section.upcoming-events",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

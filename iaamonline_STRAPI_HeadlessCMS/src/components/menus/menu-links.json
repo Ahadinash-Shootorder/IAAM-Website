@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_menus_menu_links",
+  "info": {
+    "displayName": "MenuLinks",
+    "icon": "link"
+  },
+  "options": {},
+  "attributes": {
+    "LinkTitle": {
+      "type": "string"
+    },
+    "LinkURL": {
+      "type": "string"
+    },
+    "Sublinks": {
+      "type": "component",
+      "component": "menus.sublinks",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

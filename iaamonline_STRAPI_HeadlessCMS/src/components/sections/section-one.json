@@ -1,0 +1,34 @@
+{
+  "collectionName": "components_sections_section_ones",
+  "info": {
+    "displayName": "SectionOne"
+  },
+  "options": {},
+  "attributes": {
+    "Heading": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "blocks"
+    },
+    "Image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "ImagePostion": {
+      "type": "enumeration",
+      "enum": [
+        "None",
+        "Left",
+        "Right"
+      ]
+    }
+  },
+  "config": {}
+}

@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_secondfold_second_folds",
+  "info": {
+    "displayName": "SecondFold"
+  },
+  "options": {},
+  "attributes": {
+    "SectionTitle": {
+      "type": "string"
+    },
+    "FirstCard": {
+      "type": "component",
+      "component": "card-with-text.cardwithtext",
+      "repeatable": false
+    },
+    "SecondCard": {
+      "type": "component",
+      "component": "image.image",
+      "repeatable": false
+    },
+    "ThirdCards": {
+      "type": "component",
+      "component": "cardwithlink.cardwithlink",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

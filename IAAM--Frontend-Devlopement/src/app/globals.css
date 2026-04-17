@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --border: #e5e7eb;
+  --muted-foreground: #6b7280;
+  
+  /* IAAM Custom Colors */
+  --iaam-primary: #1e40af;
+  --iaam-cta: #1e40af;
+  --iaam-bg-gray: #f3f4f6;
+  --iaam-text-dark: #1f2937;
+  --iaam-text-body: #4b5563;
+  --iaam-section-header: #1e40af;
+  --iaam-link-light: #374151;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-muted-foreground: var(--muted-foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Custom Tailwind utilities for IAAM colors */
+.bg-background {
+  background-color: var(--background);
+}
+
+.text-foreground {
+  color: var(--foreground);
+}
+
+.border-border {
+  border-color: var(--border);
+}
+
+.text-muted-foreground {
+  color: var(--muted-foreground);
+}
+
+.bg-iaam-primary {
+  background-color: var(--iaam-primary);
+}
+
+.text-iaam-primary {
+  color: var(--iaam-primary);
+}
+
+.bg-iaam-cta {
+  background-color: var(--iaam-cta);
+}
+
+.text-iaam-cta {
+  color: var(--iaam-cta);
+}
+
+.bg-iaam-bg-gray {
+  background-color: var(--iaam-bg-gray);
+}
+
+.text-iaam-text-dark {
+  color: var(--iaam-text-dark);
+}
+
+.text-iaam-text-body {
+  color: var(--iaam-text-body);
+}
+
+.text-iaam-section-header {
+  color: var(--iaam-section-header);
+}
+
+.text-iaam-link-light {
+  color: var(--iaam-link-light);
+}
+
+.bg-home-page {
+  background-color: #1e40af;
+}
+
+/* Border styles */
+.border-border {
+  border-color: var(--border);
+}
+
+@keyframes dropdownSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-animate {
+  animation: dropdownSlide 0.4s ease-out forwards;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.hero-slide-in {
+  animation: slideInRight 0.8s ease-out forwards;
+}
+
+.hero-heading {
+  animation: slideInRight 0.8s ease-out forwards;
+}
+
+.hero-subheading {
+  animation: slideInRight 0.8s ease-out forwards 0.8s;
+}
+
+.hero-button {
+  animation: slideInRight 0.8s ease-out forwards 1.6s;
+}
+
+/* Dropdown scroll styling */
+.dropdown-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--iaam-primary) var(--iaam-bg-gray);
+}
+
+.dropdown-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdown-scroll::-webkit-scrollbar-track {
+  background: var(--iaam-bg-gray);
+}
+
+.dropdown-scroll::-webkit-scrollbar-thumb {
+  background: var(--iaam-primary);
+  border-radius: 3px;
+}
+
+.dropdown-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--iaam-text-dark);
+}

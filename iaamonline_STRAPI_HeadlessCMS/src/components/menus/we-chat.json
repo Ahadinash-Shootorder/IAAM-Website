@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_menus_we_chats",
+  "info": {
+    "displayName": "WeChat"
+  },
+  "options": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "Image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  },
+  "config": {}
+}

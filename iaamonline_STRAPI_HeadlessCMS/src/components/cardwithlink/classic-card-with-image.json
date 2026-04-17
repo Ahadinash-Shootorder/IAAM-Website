@@ -1,0 +1,34 @@
+{
+  "collectionName": "components_cardwithlink_classic_card_with_images",
+  "info": {
+    "displayName": "ClassicCardWithImage"
+  },
+  "options": {},
+  "attributes": {
+    "Image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "Title": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "blocks"
+    },
+    "ButtonLabel": {
+      "type": "string"
+    },
+    "ButtonLink": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::top-content.top-content"
+    }
+  },
+  "config": {}
+}

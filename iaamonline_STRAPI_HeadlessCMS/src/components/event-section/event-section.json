@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_event_section_event_sections",
+  "info": {
+    "displayName": "EventSection"
+  },
+  "options": {},
+  "attributes": {
+    "SectionTitle": {
+      "type": "string"
+    },
+    "Eventinformation": {
+      "type": "component",
+      "component": "cardwithlink.classic-card-with-image",
+      "repeatable": false
+    }
+  },
+  "config": {}
+}

@@ -1,0 +1,41 @@
+{
+  "collectionName": "components_secondfold_fourth_folds",
+  "info": {
+    "displayName": "FourthFold"
+  },
+  "options": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "SubTitle": {
+      "type": "text"
+    },
+    "NewsLetterButtonText": {
+      "type": "string"
+    },
+    "NewsLetterButtonLink": {
+      "type": "string"
+    },
+    "AllArticlesLink": {
+      "type": "string"
+    },
+    "FeaturedTitle": {
+      "type": "string"
+    },
+    "FeaturedImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "FeaturedDescription": {
+      "type": "blocks"
+    }
+  },
+  "config": {}
+}

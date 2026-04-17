@@ -1,0 +1,87 @@
+{
+  "kind": "collectionType",
+  "collectionName": "menu_sections",
+  "info": {
+    "singularName": "menu-section",
+    "pluralName": "menu-sections",
+    "displayName": "MenuSection"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "MenuPlacement": {
+      "type": "enumeration",
+      "enum": [
+        "Primary",
+        "Footer"
+      ]
+    },
+    "Description": {
+      "type": "blocks",
+      "conditions": {
+        "visible": {
+          "!=": [
+            {
+              "var": "MenuPlacement"
+            },
+            "Footer"
+          ]
+        }
+      }
+    },
+    "ButtonLabel": {
+      "type": "string",
+      "conditions": {
+        "visible": {
+          "!=": [
+            {
+              "var": "MenuPlacement"
+            },
+            "Footer"
+          ]
+        }
+      }
+    },
+    "ButtonLink": {
+      "type": "string",
+      "conditions": {
+        "visible": {
+          "!=": [
+            {
+              "var": "MenuPlacement"
+            },
+            "Footer"
+          ]
+        }
+      }
+    },
+    "LeftCard": {
+      "type": "component",
+      "conditions": {
+        "visible": {
+          "!=": [
+            {
+              "var": "MenuPlacement"
+            },
+            "Footer"
+          ]
+        }
+      },
+      "component": "cardwithlink.classic-card-with-image",
+      "repeatable": false
+    },
+    "Links": {
+      "type": "component",
+      "component": "menus.menu-links",
+      "repeatable": true
+    },
+    "OrderNo": {
+      "type": "integer"
+    }
+  }
+}

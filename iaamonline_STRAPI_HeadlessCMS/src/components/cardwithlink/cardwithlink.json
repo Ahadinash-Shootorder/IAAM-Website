@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_cardwithlink_cardwithlinks",
+  "info": {
+    "displayName": "Cardswithlink"
+  },
+  "options": {},
+  "attributes": {
+    "Heading": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "string"
+    },
+    "Link": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

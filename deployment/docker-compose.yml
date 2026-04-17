@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  iaam-nextjs:
+    image: ${ECR_REGISTRY:-localhost}/iaam-nextjs:latest
+    container_name: iaam-nextjs
+    restart: unless-stopped
+    env_file: .env
+    expose:
+      - "3000"
+
+  ssinstrument-nextjs:
+    image: ${ECR_REGISTRY:-localhost}/ssinstrument-nextjs:latest
+    container_name: ssinstrument-nextjs
+    restart: unless-stopped
+    env_file: .env
+    expose:
+      - "3000"
+
+  strapi:
+    image: ${ECR_REGISTRY:-localhost}/strapi:latest
+    container_name: strapi-backend
+    restart: unless-stopped
+    env_file: .env
+    expose:
+      - "1337"
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - /etc/letsencrypt:/etc/letsencrypt:ro # Mount Certbot certificates
+      - /var/www/certbot:/var/www/certbot    # Webroot for certbot renewals
+    depends_on:
+      - iaam-nextjs
+      - ssinstrument-nextjs
+      - strapi
+
+networks:
+  default:
+    name: myapp_network

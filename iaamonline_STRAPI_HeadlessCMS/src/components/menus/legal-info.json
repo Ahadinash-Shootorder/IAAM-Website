@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_menus_legal_infos",
+  "info": {
+    "displayName": "LegalInfo"
+  },
+  "options": {},
+  "attributes": {
+    "Label": {
+      "type": "string"
+    },
+    "LabelLink": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

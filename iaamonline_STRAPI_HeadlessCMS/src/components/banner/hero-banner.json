@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_banner_hero_banners",
+  "info": {
+    "displayName": "Hero Banner",
+    "icon": "monitor"
+  },
+  "options": {},
+  "attributes": {
+    "HeroBanner": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "HeroBannerTitle": {
+      "type": "string"
+    },
+    "HeroBannerDescription": {
+      "type": "string"
+    },
+    "HeroBannerButtonLabel": {
+      "type": "string"
+    },
+    "Links": {
+      "type": "component",
+      "component": "menus.sublinks",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_card_with_text_cardwithtexts",
+  "info": {
+    "displayName": "Cardwithtext"
+  },
+  "options": {},
+  "attributes": {
+    "Cardtitle": {
+      "type": "string"
+    },
+    "CardDescription": {
+      "type": "string"
+    },
+    "CardButtonLabel": {
+      "type": "string"
+    },
+    "CardButtonLink": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}
