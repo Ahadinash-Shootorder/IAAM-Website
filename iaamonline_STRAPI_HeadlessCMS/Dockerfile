@@ -6,6 +6,7 @@ ENV NODE_ENV=production
 WORKDIR /opt/
 COPY package.json package-lock.json ./
 RUN npm ci --only=production
+RUN npm install better-sqlite3
 
 WORKDIR /opt/app
 COPY . .
