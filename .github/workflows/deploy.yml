@@ -1,4 +1,5 @@
 name: Deploy Production
+
 on:
   push:
     branches:
@@ -7,12 +8,13 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -20,20 +22,28 @@ jobs:
 
       - name: Login to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build & Push IAAM-nextjs
+      # 🔥 CREATE ECR REPOSITORIES (AUTO FIX)
+      - name: Create ECR Repositories if not exist
         run: |
-          # Make sure to run this workflow from the correct repository context
-          # If your repos are separate, break this deploy.yml into multiple files directly into the respective repo
+          aws ecr describe-repositories --repository-names iaam-nextjs || aws ecr create-repository --repository-name iaam-nextjs
+          aws ecr describe-repositories --repository-names ssinstrument-nextjs || aws ecr create-repository --repository-name ssinstrument-nextjs
+          aws ecr describe-repositories --repository-names strapi || aws ecr create-repository --repository-name strapi
+
+      # 🚀 BUILD & PUSH IAAM
+      - name: Build & Push IAAM Next.js
+        run: |
           docker build -t ${{ steps.login-ecr.outputs.registry }}/iaam-nextjs:latest ./IAAM--Frontend-Devlopement
           docker push ${{ steps.login-ecr.outputs.registry }}/iaam-nextjs:latest
-          
-      - name: Build & Push SSinstrument-nextjs
+
+      # 🚀 BUILD & PUSH SSinstrument
+      - name: Build & Push SSinstrument Next.js
         run: |
           docker build -t ${{ steps.login-ecr.outputs.registry }}/ssinstrument-nextjs:latest ./SSinstruments-Frontend
           docker push ${{ steps.login-ecr.outputs.registry }}/ssinstrument-nextjs:latest
 
+      # 🚀 BUILD & PUSH STRAPI
       - name: Build & Push Strapi
         run: |
           docker build -t ${{ steps.login-ecr.outputs.registry }}/strapi:latest ./iaamonline_STRAPI_HeadlessCMS
@@ -42,17 +52,148 @@ jobs:
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
+
     steps:
-      - name: SSH into EC2 and Deploy
+      - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Pull latest images and restart containers
+            echo "🚀 Deploy started"
+
+            # Ensure folder exists
+            mkdir -p /opt/myapp
             cd /opt/myapp
+
+            # Install docker if not exists
+            if ! command -v docker &> /dev/null
+            then
+              sudo apt update
+              sudo apt install docker.io -y
+              sudo systemctl start docker
+            fi
+
+            # Install docker-compose if not exists
+            if ! command -v docker-compose &> /dev/null
+            then
+              sudo apt install docker-compose -y
+            fi
+
+            # Login to ECR
             aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_REGISTRY }}
-            docker-compose pull
-            docker-compose up -d --no-deps iaam-nextjs ssinstrument-nextjs strapi
+
+            # Pull latest images
+            docker pull ${{ secrets.AWS_REGISTRY }}/iaam-nextjs:latest
+            docker pull ${{ secrets.AWS_REGISTRY }}/ssinstrument-nextjs:latest
+            docker pull ${{ secrets.AWS_REGISTRY }}/strapi:latest
+
+            # Stop old containers
+            docker stop iaam-nextjs || true
+            docker stop ssinstrument-nextjs || true
+            docker stop strapi || true
+
+            docker rm iaam-nextjs || true
+            docker rm ssinstrument-nextjs || true
+            docker rm strapi || true
+
+            # Run new containers
+            docker run -d -p 3000:3000 --name iaam-nextjs ${{ secrets.AWS_REGISTRY }}/iaam-nextjs:latest
+            docker run -d -p 3001:3000 --name ssinstrument-nextjs ${{ secrets.AWS_REGISTRY }}/ssinstrument-nextjs:latest
+            docker run -d -p 1337:1337 --name strapi ${{ secrets.AWS_REGISTRY }}/strapi:latest
+
+            # Cleanup
             docker system prune -f
+
+            echo "✅ Deploy complete"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# name: Deploy Production
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   build-and-push:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@v3
+
+#       - name: Configure AWS Credentials
+#         uses: aws-actions/configure-aws-credentials@v1
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: ap-south-1
+
+#       - name: Login to Amazon ECR
+#         id: login-ecr
+#         uses: aws-actions/amazon-ecr-login@v1
+
+#       - name: Build & Push IAAM-nextjs
+#         run: |
+#           # Make sure to run this workflow from the correct repository context
+#           # If your repos are separate, break this deploy.yml into multiple files directly into the respective repo
+#           docker build -t ${{ steps.login-ecr.outputs.registry }}/iaam-nextjs:latest ./IAAM--Frontend-Devlopement
+#           docker push ${{ steps.login-ecr.outputs.registry }}/iaam-nextjs:latest
+          
+#       - name: Build & Push SSinstrument-nextjs
+#         run: |
+#           docker build -t ${{ steps.login-ecr.outputs.registry }}/ssinstrument-nextjs:latest ./SSinstruments-Frontend
+#           docker push ${{ steps.login-ecr.outputs.registry }}/ssinstrument-nextjs:latest
+
+#       - name: Build & Push Strapi
+#         run: |
+#           docker build -t ${{ steps.login-ecr.outputs.registry }}/strapi:latest ./iaamonline_STRAPI_HeadlessCMS
+#           docker push ${{ steps.login-ecr.outputs.registry }}/strapi:latest
+
+#   deploy:
+#     needs: build-and-push
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: SSH into EC2 and Deploy
+#         uses: appleboy/ssh-action@v0.1.6
+#         with:
+#           host: ${{ secrets.EC2_HOST }}
+#           username: ubuntu
+#           key: ${{ secrets.EC2_SSH_KEY }}
+#           script: |
+#             # Pull latest images and restart containers
+#             cd /opt/myapp
+#             aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_REGISTRY }}
+#             docker-compose pull
+#             docker-compose up -d --no-deps iaam-nextjs ssinstrument-nextjs strapi
+#             docker system prune -f
