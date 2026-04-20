@@ -104,3 +104,6 @@ services:
 networks:
   default:
     name: myapp_network
+
+volumes:
+  strapi-data:
